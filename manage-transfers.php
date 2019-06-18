@@ -24,91 +24,68 @@
 		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 		<![endif]-->
 
-        <div class="header"></div>
-        
-        <div class="navbar">
-            <?php include("./sidebar.php");?>
-        </div>
+        <?php include('header.php'); ?>
 
-        <div class="body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
+        <div class="container" style="width: 90%; margin: 0; padding: 0;">
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-xs-3">
+                    <div class="navbar">
+                        <?php include("./sidebar.php");?>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class="body">
+                        <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
 
-                        <h2 class="page-title">Manage Transfers</h2>
+                                <h2 class="page-title">Manage Transfers</h2>
 
-                        <div class="panel-heading">All Transfers</div>
-							<div class="panel-body">
-								<table class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
-									<thead>
-										<tr>
-											<th>Sno.</th>
-											<th>Recipient Name</th>
-											<th>Description</th>
-											<th>Amount</th>
-											<th>Action</th>
-										</tr>
-									</thead>
-									<tfoot>
-										<tr>
-                                            <th>Sno.</th>
-											<th>Recipient Name</th>
-											<th>Description</th>
-											<th>Amount</th>
-											<th>Action</th>
-										</tr>
-									</tfoot>
-									<tbody>
-                                        
-                                        <?php	
+                                <div class="panel-heading">All Transfers</div>
+                                    <div class="panel-body" style="overflow-x: hidden; overflow-x: auto; height: 500px;">
+                                        <table class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Sno.</th>
+                                                    <th>Recipient Name</th>
+                                                    <th>Description</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </thead>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Sno.</th>
+                                                    <th>Recipient Name</th>
+                                                    <th>Description</th>
+                                                    <th>Amount</th>
+                                                </tr>
+                                            </tfoot>
+                                            <tbody>
 
-                                            //List Transfer API
-                                            curl_setopt_array($curl, array(
-                                                CURLOPT_URL => "https://api.paystack.co/transfer",
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => "",
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => false,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => "GET",
-                                                CURLOPT_HTTPHEADER => array(
-                                                "Authorization: Bearer sk_test_e86f74dea3b77a63e06bc4a527cdec45b25c8baa"
-                                                ),
-                                            ));
+                                                <?php
+                                                    //List Transfer function call
+                                                    $get_data = callAPI("GET", "https://api.paystack.co/transfer", false);
+                                                    $response = json_decode($get_data, true);
+                                                    $recipient = $response['data'];
+                                                    foreach($recipient as $key => $val){
+                                                        $count = $count + 1;
+                                                 ?>
+                                                     <tr>
+                                                        <td><?= $count ?></td>
+                                                        <td><?= $val['recipient']['name'] ?></td>
+                                                        <td><?= $val['reason'] ?></td>
+                                                        <td><?= "N".$val['amount'] ?></td>
+                                                    </tr>
+                                                <?php } ?>
 
-                                            $response = curl_exec($curl);
-                                            $err = curl_error($curl);
+                                            </tbody>
+                                        </table>
 
-                                            curl_close($curl);
+                                    </div>
+                                </div>
 
-                                            if ($err) {
-                                                echo "cURL Error #:" . $err;
-                                            } else {
-                                                $json = json_decode($response, true);
-                                                $recipient = $json['data'];
-                                                $count = 0;
-                                                foreach($recipient as $key => $val){
-                                                    $count = $count + 1;
-                                         ?>
-                                         <tr>
-                                            <td><?= $count ?></td>
-                                            <td><?= $val['recipient']['name'] ?></td>
-                                            <td><?= $val['reason'] ?></td>
-                                            <td><?= "N".$val['amount'] ?></td>
-                                            <td>
-                                            <a href="#" title="Delete Record" onclick="return confirm("Do you want to delete");"><i class="fa fa-pencil"></i></a></td>
-
-                                            
-                                        </tr>     
-                                        <?php } } ?>                                   
-                                                                                
-                                    </tbody>
-                                </table>
-	
-							</div>
+                            </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>

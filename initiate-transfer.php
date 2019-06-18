@@ -14,34 +14,19 @@
 
 			$msg = "values present";
             
-            //Create Recipient API
-			curl_setopt_array($curl, array(
-			  CURLOPT_URL => "https://api.paystack.co/transfer",
-			  CURLOPT_RETURNTRANSFER => true,
-			  CURLOPT_ENCODING => "",
-			  CURLOPT_MAXREDIRS => 10,
-			  CURLOPT_TIMEOUT => 0,
-			  CURLOPT_FOLLOWLOCATION => false,
-			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			  CURLOPT_CUSTOMREQUEST => "POST",
-			  CURLOPT_POSTFIELDS => "source=$source&reason=$reason&amount=$amount&recipient=$recip",
-			  CURLOPT_HTTPHEADER => array(
-			    "Authorization: Bearer sk_test_e86f74dea3b77a63e06bc4a527cdec45b25c8baa",
-			  ),
-			));
-			
-			$response = curl_exec($curl);
-			$err = curl_error($curl);
-			
-			curl_close($curl);
-            
-			if ($err) {
-			  echo "cURL Error #:" . $err;
-			} else {
-			  echo "<script>alert('SUCCESS')</script>";
-			}
-		
-		}
+            //Create Recipient function call
+
+            $data = "source=$source&reason=$reason&amount=$amount&recipient=$recip";
+            $get_data = callAPI('POST', 'https://api.paystack.co/transfer', $data);
+            $response = json_decode($get_data);
+
+            if($response->status == true){
+                echo "<script>alert('SUCCESS')</script>";
+            }else{
+                echo $response->message;
+            }
+
+        }
 		
 	}
 ?>
@@ -68,86 +53,72 @@
 		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
 		<![endif]-->
 
-        <div class="header"></div>
-        
-        <div class="navbar">
-            <?php include("./sidebar.php");?>
-        </div>
+        <?php include('header.php'); ?>
 
-        <div class="body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
+        <div class="container" style="width: 90%; margin: 0; padding: 0;">
+            <div class="row">
+                <div class="col-md-2 col-sm-3 col-xs-3">
+                    <div class="navbar">
+                        <?php include("./sidebar.php");?>
+                    </div>
+                </div>
+                <div class="col-md-9 col-sm-9 col-xs-9">
+                    <div class="body">
+                         <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
 
-                        <h2 class="page-title">Initiate Transfer</h2>
+                                    <h2 class="page-title">Initiate Transfer</h2>
 
-                        <form method="post" action="#" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
-                            <div class="form-group required">
-                                <label class="col-sm-2 control-label">Source</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="source"  value="balance" class="form-control" required readonly>
+                                    <form method="post" action="#" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">Source</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="source"  value="balance" class="form-control" required readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">Desc</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" name="reason" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">Amount</label>
+                                            <div class="col-sm-8">
+                                              <input type="number" name="amount" class="form-control" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group required">
+                                            <label class="col-sm-2 control-label">Recipient </label>
+                                            <div class="col-sm-8">
+                                                <select name="recip" class="form-control" required>
+                                                    <option value="">Select Recipient</option>
+                                                    <?php
+
+                                                        //List Recipient function call
+                                                        $get_data = callAPI('GET', 'https://api.paystack.co/transferrecipient', false);
+                                                        $response = json_decode($get_data, true);
+                                                        $recipient = $response['data'];
+                                                        foreach($recipient as $key => $val){
+                                                    ?>
+                                                        <option value="<?= $val['recipient_code'] ?>"><?= $val['name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-sm-offset-4">
+                                            <button class="btn btn-default" type="submit" href="#">Cancel</button>
+                                            <input type="submit" name="initiate" Value="Transfer" class="btn btn-primary">
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Desc</label>
-                                <div class="col-sm-8">
-                                    <input type="text" name="reason" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Amount</label>
-                                <div class="col-sm-8">
-                                  <input type="number" name="amount" class="form-control">
-                                </div>
-                            </div>
-
-                            <div class="form-group required">
-                                <label class="col-sm-2 control-label">Recipient </label>
-                                <div class="col-sm-8">
-                                    <select name="recip" class="form-control" required> 
-                                        <option value="">Select Recipient</option>
-                                        <?php 
-
-                                            //List Recipient API
-                                            curl_setopt_array($curl, array(
-                                                CURLOPT_URL => "https://api.paystack.co/transferrecipient",
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => "",
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => false,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => "GET",
-                                                CURLOPT_HTTPHEADER => array(
-                                                "Authorization: Bearer sk_test_e86f74dea3b77a63e06bc4a527cdec45b25c8baa"
-                                                ),
-                                            ));
-
-                                            $response = curl_exec($curl);
-                                            $err = curl_error($curl);
-
-                                            curl_close($curl);
-
-                                            if ($err) {
-                                                echo "cURL Error #:" . $err;
-                                            } else {
-                                                $json = json_decode($response, true);
-                                                $recipient = $json['data'];
-                                                foreach($recipient as $key => $val){
-                                        ?>
-                                        <option value="<?= $val['recipient_code'] ?>"><?= $val['name'] ?></option>
-                                        <?php } } ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 col-sm-offset-4">
-                                <button class="btn btn-default" type="submit">Cancel</button>
-                                <input type="submit" name="initiate" Value="Transfer" class="btn btn-primary">
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>

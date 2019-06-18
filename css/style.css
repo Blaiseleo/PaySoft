@@ -37,47 +37,65 @@ html {
 *      BODY DEFAULTS        *
 ****************************/
 * {
-	margin: 0 auto;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 a {
-	text-decoration: none !important;
-	cursor: pointer;
+  text-decoration: none !important;
+  cursor: pointer;
 }
 
-	/* scrollbar */
+/* scrollbar */
 ::-webkit-scrollbar {
-    width: 7px;
+  width: 7px;
 }
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
- 
+
 ::-webkit-scrollbar-thumb {
   background-color: #a7a7a7;
   outline: 1px solid slategrey;
 }
 ::-webkit-scrollbar-button {
-      background-color: #262626;
+  background-color: #262626;
 } /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
- 
+
 ::-webkit-scrollbar-corner {
-      background-color: black;
-}
-.container {
-	position: relative;
+  background-color: black;
 }
 
+/*sign in*/
+.sign_in_container{
+  border:2px solid #eee;
+  width:500px;
+  height:650px;
+  margin: 70px auto;
+}
+.sign_in_container h3{
+  text-align: center;
+  margin-top: 70px;
+  line-height: 40px;
+}
+.sign_in_container span{
+  padding-bottom: 7px;
+  border-bottom: 4px solid #325d88;
+}
 
 /*header*/
 .header {
-  height: 4em;
-	background: #00B9ED;
+  height: 70px;
+  background-color: #00B9ED;
+}
+.logo{
+  color: #f9f9f9;
+  margin: auto;
+  padding: 20px;
 }
 
 /****************************
@@ -669,121 +687,142 @@ li {
 
 /*sidebar*/
 .navbar {
-    background: #2c2c2c;
-    width: 15em;
-    float: left;
-    border-radius: 0px;
-    height: 65em;
+  background: #2c2c2c;
+  height: 100vh;
+  width: 100%;
+  border-radius: 0px !important;
+
 }
 .ts-sidebar {
-    background: #2c3136;
-    max-height: 0;
-    transition: max-height 0.3s;
-    overflow: hidden;
-    position: fixed;
-    z-index: 2;
-    width: 100%;
-    bottom: 0;
-    top: 60px;
-    overflow-y: auto;
-  }
-  .ts-sidebar .hidden-side {
+  background: #2c3136;
+  max-height: 0;
+  transition: max-height 0.3s;
+  overflow: hidden;
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  bottom: 0;
+  top: 60px;
+  overflow-y: auto;
+}
+.ts-sidebar .hidden-side {
+  display: none;
+}
+.ts-sidebar .ts-sidebar-search {
+  width: 100%;
+  background: #25292a;
+  border: none;
+  padding: 10px 15px;
+  color: #fff;
+}
+@media only screen and (min-width: 992px) {
+  .ts-sidebar .ts-profile-nav {
     display: none;
   }
-  .ts-sidebar .ts-sidebar-search {
-    width: 100%;
-    background: #25292a;
-    border: none;
-    padding: 10px 15px;
-    color: #fff;
+}
+@media only screen and (min-width: 992px) {
+  .ts-sidebar {
+    max-height: 100%;
+    bottom: 0;
   }
-  @media only screen and (min-width: 992px) {
-    .ts-sidebar .ts-profile-nav {
-      display: none;
-    }
-  }
-  @media only screen and (min-width: 992px) {
-    .ts-sidebar {
-      max-height: 100%;
-      bottom: 0;
-    }
-  }
-  .ts-sidebar-menu .ts-label {
-    color: #585c64;
-    font-weight: bold;
-    padding: 8px 15px;
-    text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 3px;
-    margin-top: 10px;
-  }
-  .ts-sidebar-menu a {
-    display: block;
-    text-decoration: none;
-    padding: 12px 15px;
-    color: #fff;
-  }
-  .ts-sidebar-menu li {
-    position: relative;
-  }
-  .ts-sidebar-menu li i {
-    color: #585c64;
-    margin-right: 10px;
-  }
-  .ts-sidebar-menu li ul {
-    display: block;
-    background: rgba(255, 0, 0, 0.12);
-    background: rgba(0, 0, 0, 0.32);
-    max-height: 0;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-  .menu-open,
-  .ts-sidebar-menu .open > ul {
-    max-height: 2000px;
-  }
-  .ts-sidebar-menu .open > a {
-    background: rgba(51, 56, 62, 0.35);
-  }
-  .ts-sidebar-menu > .open > a {
-    background: #33383e;
-    border-left: 3px solid #37a6c4;
-  }
-  .ts-sidebar-menu .open > .more i {
-    transform: rotate(180deg);
-  }
-  .more i {
-    color: #fff;
-    padding: 15px;
-    transition: transform 0.3s;
-  }
-  .more {
-    float: right;
-    min-width: 10%;
-    cursor: pointer;
+}
+.ts-sidebar-menu .ts-label {
+  color: #585c64;
+  font-weight: bold;
+  padding: 8px 15px;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 3px;
+  margin-top: 10px;
+}
+.ts-sidebar-menu a {
+  display: block;
+  text-decoration: none;
+  padding: 12px 15px;
+  color: #fff;
+}
+.ts-sidebar-menu li {
+  position: relative;
+}
+.ts-sidebar-menu li i {
+  color: #585c64;
+  margin-right: 10px;
+}
+.ts-sidebar-menu li ul {
+  display: block;
+  background: rgba(255, 0, 0, 0.12);
+  background: rgba(0, 0, 0, 0.32);
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.menu-open,
+.ts-sidebar-menu .open > ul {
+  max-height: 2000px;
+}
+.ts-sidebar-menu .open > a {
+  background: rgba(51, 56, 62, 0.35);
+}
+.ts-sidebar-menu > .open > a {
+  background: #33383e;
+  border-left: 3px solid #37a6c4;
+}
+.ts-sidebar-menu .open > .more i {
+  transform: rotate(180deg);
+}
+.more i {
+  color: #fff;
+  padding: 15px;
+  transition: transform 0.3s;
+}
+.more {
+  float: right;
+  min-width: 10%;
+  cursor: pointer;
+}
+.ts-main-content .content-wrapper {
+  padding-top: 15px;
+  margin-top: 10px;
+}
+@media only screen and (min-width: 992px) {
+  .ts-main-content .ts-sidebar {
+    width: 250px;
+    float: left;
   }
   .ts-main-content .content-wrapper {
-    padding-top: 15px;
-    margin-top: 10px;
+    margin-left: 250px;
   }
-  @media only screen and (min-width: 992px) {
-    .ts-main-content .ts-sidebar {
-      width: 250px;
-      float: left;
-    }
-    .ts-main-content .content-wrapper {
-      margin-left: 250px;
-    }
-  }
+}
 
-  .balance {
-    margin-bottom: 5em;
-  }
-  .balance h2 {
-    margin: 1em;
-  }
+.balance {
+  margin-bottom: 5em;
+}
+.balance h2 {
+  margin: 1em;
+}
 
-  .form-group.required .control-label:after {
-    content: "*";
-    color: red;
-  }
+.form-group.required .control-label:after {
+  content: "*";
+  color: red;
+}
+.control-label{
+  font-size: 10px;
+  color: #5e5e5e;
+  margin-left:25px;
+}
+.control{
+  width: 90% !important;
+  margin-left:25px;
+  border: 0 !important;
+  border-bottom: 2px solid #eee !important;
+}
+input:focus{
+  outline:none;
+}
+.signin_fa{
+  margin-top:10px;
+  margin-left:30px;
+}
+.submit{
+  width:100px;
+}

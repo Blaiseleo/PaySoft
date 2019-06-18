@@ -14,5 +14,6 @@
                 <li><a href="./manage-transfers.php">Manage Transfers</a></li>
             </ul>
         </li>
+        <li><a href="main.php"><i class="fa fa-power-off"></i> Logout </a></li>
     </ul>
 </nav>
