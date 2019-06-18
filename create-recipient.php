@@ -8,24 +8,39 @@
 			$type = $_POST['type']; 
 			$name = $_POST['name'];
             $email = $_POST['email']; 
-			$mtd = $_POST['mtd'];
 			$desc = $_POST['desc'];
 			$acc = $_POST['acc'];
-			$currency = $_POST['currency'];
 			$bank = $_POST['bank'];
 
 
-            $data = "type=$type&name=$name&email=$email&metadata=$mtd&description=$desc&account_number=$acc&currency=$currency&bank_code=$bank";
-            $get_data = callAPI("POST", "https://api.paystack.co/transferrecipient", $data);
-            $response = json_decode($get_data);
+            $get_data = callAPI("GET", "https://api.paystack.co/transferrecipient", false);
+            $response = json_decode($get_data, true); //converted to json
 
-            if($response->status == true){
-                echo "<script>alert('SUCCESS')</script>";
-            }else{
-                $error = $response->status."<br>".$response->message;
+            $recipient = $response['data'];
 
+            $isFound = 0;
+
+            foreach($recipient as $key => $val) {
+                if ($acc == $val['details']['account_number']) {
+                    $isFound = 1;
+                }
             }
 
+            if($isFound){
+                $error = "Account number already exist";
+            }
+            else{
+                $data = "type=$type&name=$name&email=$email&description=$desc&account_number=$acc&bank_code=$bank";
+                $get_data = callAPI("POST", "https://api.paystack.co/transferrecipient", $data);
+                $response = json_decode($get_data);
+
+                if($response->status == true){
+                    echo "<script>alert('SUCCESS')</script>";
+                }else{
+                    $error = $response->status."<br>".$response->message;
+
+                }
+            }
 
 		}
 	}
@@ -42,7 +57,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="HandheldFriendly" content="true">
         
-        <title>Paystack</title>
+        <title>PaySoft</title>
     
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -93,14 +108,6 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label">Metadata</label>
-                                            <div class="col-sm-8">
-                                                <textarea name="mtd" class="form-control" ></textarea>
-                                                <label style="color: red; font-size: 10px;">Additional Info: json format accepted only</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label class="col-sm-2 control-label">Desc</label>
                                             <div class="col-sm-8">
                                                 <input type="text" name="desc"  class="form-control" >
@@ -113,14 +120,7 @@
                                                 <input type="number" name="acc" class="form-control" required>
                                             </div>
                                         </div>
-
-                                        <div class="form-group">
-                                            <label class="col-sm-2 control-label">Currency</label>
-                                            <div class="col-sm-8">
-                                                <input type="text" name="currency"  class="form-control" >
-                                            </div>
-                                        </div>
-
+                                        
                                         <div class="form-group required">
                                             <label class="col-sm-2 control-label">Bank </label>
                                             <div class="col-sm-8">

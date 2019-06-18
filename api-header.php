@@ -1,5 +1,5 @@
 <?php
-
+    session_start();
     if(!function_exists('callAPI')){
         function callAPI($method, $url, $data){
             $curl = curl_init(); //creating curl resource

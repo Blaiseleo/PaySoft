@@ -1,18 +1,22 @@
 <?php
-if(isset($_POST['signin'])) {
-    if(isset($_POST['email']) && isset($_POST['password'])){
+    session_start();
+    if(isset($_POST['signin'])) {
+        if(isset($_POST['email']) && isset($_POST['password'])){
 
-        $email = $_POST['email'];
-        $password = $_POST['password'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
 
-        if(!$email == 'admin@admin.com' && !$password == 'password'){
-            $msg = "Incorrect details";
-        }else{
-            header("location:./main.php");
+            $testEmail = "admin@admin.com";
+            $testPass = "password";
+
+            if(($email == $testEmail) && ($password == $testPass)){
+                header("location:./main.php");
+            }else{
+                $msg = "Incorrect details";
+            }
+
         }
-
     }
-}
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +30,7 @@ if(isset($_POST['signin'])) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="HandheldFriendly" content="true">
 
-        <title>Paystack</title>
+        <title>PaySoft</title>
 
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />

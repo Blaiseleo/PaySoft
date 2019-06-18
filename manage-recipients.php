@@ -12,7 +12,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="HandheldFriendly" content="true">
 
-        <title>Paystack</title>
+        <title>PaySoft</title>
 
 		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
@@ -46,20 +46,22 @@
                                             <thead>
                                                 <tr>
                                                     <th>Sno.</th>
-                                                    <th>recipient Name</th>
+                                                    <th>Name</th>
                                                     <th>Email</th>
                                                     <th>Bank Name</th>
                                                     <th>Account no  </th>
+                                                    <th>Description</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tfoot>
                                                 <tr>
                                                     <th>Sno.</th>
-                                                    <th>recipient Name</th>
+                                                    <th>Name</th>
                                                     <th>Email</th>
                                                     <th>Bank Name</th>
                                                     <th>Account no  </th>
+                                                    <th>Description</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>
@@ -83,6 +85,7 @@
                                                             <td><input type="email" name="email" value="<?= $val['email'] ?>"/></td>
                                                             <td><?= $val['details']['bank_name'] ?></td>
                                                             <td><?= $val['details']['account_number']?></td>
+                                                             <td><?= $val['description']?></td>
                                                             <td>
                                                             <button type="submit" name="delete" title="Delete Record" onclick="return confirm('Do you want to delete recipient?')"><i class="fa fa-close"></i></button>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             <button type="submit" name="update" title="Update Record" onclick="return confirm('Do you want to update recipient?')"><i class="fa fa-pencil"></i></button>
