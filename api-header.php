@@ -26,7 +26,7 @@
             // OPTIONS:
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Authorization: Bearer sk_test_e86f74dea3b77a63e06bc4a527cdec45b25c8baa'
+                'Authorization: Authorization_key'
             ));
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
