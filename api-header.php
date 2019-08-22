@@ -3,6 +3,7 @@
     if(!function_exists('callAPI')){
         function callAPI($method, $url, $data){
             $curl = curl_init(); //creating curl resource
+            $my_env_var = getenv('Authorization_key');
 
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false); // Just to carry out test
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);//  Just to carry out test
@@ -26,7 +27,7 @@
             // OPTIONS:
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Authorization: Authorization_key'
+                'Authorization: Bearer '.$my_env_var
             ));
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
